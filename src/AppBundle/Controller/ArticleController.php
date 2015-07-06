@@ -32,61 +32,26 @@ class ArticleController extends Controller
             'articles' => $articles,
         ));
     }
+
     /**
      * Creates a new Article entity.
      *
-     * @Route("/", name="article_create")
-     * @Method("POST")
+     * @Route("/new", name="article_new")
+     * @Method({"GET", "POST"})
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
         $article = new Article();
-        $form = $this->createCreateForm($article);
+        $form = $this->createForm(new ArticleType(), $article);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_show', array('id' => $article->getId())));
+            return $this->redirectToRoute('article_show', array('id' => $article->getId()));
         }
-
-        return $this->render('AppBundle:Article:new.html.twig', array(
-            'article' => $article,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Creates a form to create a Article entity.
-     *
-     * @param Article $article The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Article $article)
-    {
-        $form = $this->createForm(new ArticleType(), $article, array(
-            'action' => $this->generateUrl('article_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Article entity.
-     *
-     * @Route("/new", name="article_new")
-     * @Method("GET")
-     */
-    public function newAction()
-    {
-        $article = new Article();
-        $form   = $this->createCreateForm($article);
 
         return $this->render('AppBundle:Article:new.html.twig', array(
             'article' => $article,
