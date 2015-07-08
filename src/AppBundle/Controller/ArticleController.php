@@ -19,7 +19,7 @@ class ArticleController extends Controller
     /**
      * Lists all Article entities.
      *
-     * @Route("/", name="article")
+     * @Route("/", name="article_index")
      * @Method("GET")
      */
     public function indexAction()
@@ -119,7 +119,7 @@ class ArticleController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('article');
+        return $this->redirectToRoute('article_index');
     }
 
     /**
