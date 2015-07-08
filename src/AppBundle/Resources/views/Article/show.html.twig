@@ -22,15 +22,15 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('article') }}">
-            Back to the list
-        </a>
+        <a href="{{ path('article') }}">Back to the list</a>
     </li>
     <li>
-        <a href="{{ path('article_edit', { 'id': article.id }) }}">
-            Edit
-        </a>
+        <a href="{{ path('article_edit', { 'id': article.id }) }}">Edit</a>
     </li>
-    <li>{{ form(delete_form) }}</li>
+    <li>
+        {{ form_start(delete_form) }}
+            <input type="submit" value="Delete">
+        {{ form_end(delete_form) }}
+    </li>
 </ul>
 {% endblock %}
