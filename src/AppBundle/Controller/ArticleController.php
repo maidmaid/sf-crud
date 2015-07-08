@@ -65,17 +65,9 @@ class ArticleController extends Controller
      * @Route("/{id}", name="article_show")
      * @Method("GET")
      */
-    public function showAction($id)
+    public function showAction(Article $article)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $article = $em->getRepository('AppBundle:Article')->find($id);
-
-        if (!$article) {
-            throw $this->createNotFoundException('Unable to find Article entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($article);
 
         return $this->render('AppBundle:Article:show.html.twig', array(
             'article' => $article,
@@ -89,24 +81,18 @@ class ArticleController extends Controller
      * @Route("/{id}/edit", name="article_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction($id, Request $request)
+    public function editAction(Request $request, Article $article)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $article = $em->getRepository('AppBundle:Article')->find($id);
-
-        if (!$article) {
-            throw $this->createNotFoundException('Unable to find Article entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($article);
         $editForm = $this->createForm(new ArticleType(), $article);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));
+            return $this->redirectToRoute('article_edit', array('id' => $article->getId()));
         }
 
         return $this->render('AppBundle:Article:edit.html.twig', array(
@@ -122,19 +108,13 @@ class ArticleController extends Controller
      * @Route("/{id}", name="article_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, Article $article)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($article);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $article = $em->getRepository('AppBundle:Article')->find($id);
-
-            if (!$article) {
-                throw $this->createNotFoundException('Unable to find Article entity.');
-            }
-
             $em->remove($article);
             $em->flush();
         }
@@ -143,16 +123,16 @@ class ArticleController extends Controller
     }
 
     /**
-     * Creates a form to delete a Article entity by id.
+     * Creates a form to delete a Article entity.
      *
-     * @param mixed $id The entity id
+     * @param Article $article The Article entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createDeleteForm(Article $article)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('article_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('article_delete', array('id' => $article->getId())))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
