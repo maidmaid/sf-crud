@@ -87,53 +87,9 @@ class ArticleController extends Controller
      * Displays a form to edit an existing Article entity.
      *
      * @Route("/{id}/edit", name="article_edit")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $article = $em->getRepository('AppBundle:Article')->find($id);
-
-        if (!$article) {
-            throw $this->createNotFoundException('Unable to find Article entity.');
-        }
-
-        $editForm = $this->createEditForm($article);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AppBundle:Article:edit.html.twig', array(
-            'article' => $article,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
-
-    /**
-    * Creates a form to edit a Article entity.
-    *
-    * @param Article $article The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Article $article)
-    {
-        $form = $this->createForm(new ArticleType(), $article, array(
-            'action' => $this->generateUrl('article_update', array('id' => $article->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Article entity.
-     *
-     * @Route("/{id}", name="article_update")
-     * @Method("PUT")
-     */
-    public function updateAction(Request $request, $id)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -144,7 +100,7 @@ class ArticleController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($article);
+        $editForm = $this->createForm(new ArticleType(), $article);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
