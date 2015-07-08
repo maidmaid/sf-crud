@@ -115,6 +115,7 @@ class ArticleController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Article entity.
      *
@@ -138,7 +139,7 @@ class ArticleController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('article'));
+        return $this->redirectToRoute('article');
     }
 
     /**
