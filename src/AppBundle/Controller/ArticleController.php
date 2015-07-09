@@ -87,7 +87,7 @@ class ArticleController extends Controller
         $editForm = $this->createForm(new ArticleType(), $article);
         $editForm->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
@@ -113,7 +113,7 @@ class ArticleController extends Controller
         $form = $this->createDeleteForm($article);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($article);
             $em->flush();
