@@ -62,7 +62,7 @@ class ArticleController extends Controller
     /**
      * Finds and displays a Article entity.
      *
-     * @Route("/{id}", requirements={"id" = "\d+"}, name="article_show")
+     * @Route("/{id}", name="article_show")
      * @Method("GET")
      */
     public function showAction(Article $article)
@@ -78,7 +78,7 @@ class ArticleController extends Controller
     /**
      * Displays a form to edit an existing Article entity.
      *
-     * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="article_edit")
+     * @Route("/{id}/edit", name="article_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Article $article)
@@ -105,7 +105,7 @@ class ArticleController extends Controller
     /**
      * Deletes a Article entity.
      *
-     * @Route("/{id}", requirements={"id" = "\d+"}, name="article_delete")
+     * @Route("/{id}", name="article_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Article $article)
