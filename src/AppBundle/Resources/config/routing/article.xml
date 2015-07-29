@@ -10,7 +10,6 @@
 
     <route id="article_show" path="/{id}/show" methods="GET">
         <default key="_controller">AppBundle:Article:show</default>
-        <requirement key="id">\d+</requirement>
     </route>
 
     <route id="article_new" path="/new" methods="GET|POST">
@@ -19,12 +18,10 @@
 
     <route id="article_edit" path="/{id}/edit" methods="GET|POST">
         <default key="_controller">AppBundle:Article:edit</default>
-        <requirement key="id">\d+</requirement>
     </route>
 
     <route id="article_delete" path="/{id}/delete" methods="DELETE">
         <default key="_controller">AppBundle:Article:delete</default>
-        <requirement key="id">\d+</requirement>
     </route>
 
 </routes>

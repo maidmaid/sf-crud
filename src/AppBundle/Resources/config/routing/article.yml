@@ -7,8 +7,6 @@ article_show:
     path:     /{id}/show
     defaults: { _controller: "AppBundle:Article:show" }
     methods:  GET
-    requirements:
-        id: \d+
 
 article_new:
     path:     /new
@@ -19,12 +17,8 @@ article_edit:
     path:     /{id}/edit
     defaults: { _controller: "AppBundle:Article:edit" }
     methods:  [GET, POST]
-    requirements:
-        id: \d+
 
 article_delete:
     path:     /{id}/delete
     defaults: { _controller: "AppBundle:Article:delete" }
     methods:  DELETE
-    requirements:
-        id: \d+

@@ -19,7 +19,7 @@ $collection->add('article_show', new Route(
     '/{id}/show',
     array('_controller' => 'AppBundle:Article:show'),
     array(),
-    array('id' => '\d+'),
+    array(),
     '',
     array(),
     array('GET')
@@ -39,7 +39,7 @@ $collection->add('article_edit', new Route(
     '/{id}/edit',
     array('_controller' => 'AppBundle:Article:edit'),
     array(),
-    array('id' => '\d+'),
+    array(),
     '',
     array(),
     array('GET', 'POST')
@@ -49,7 +49,7 @@ $collection->add('article_delete', new Route(
     '/{id}/delete',
     array('_controller' => 'AppBundle:Article:delete'),
     array(),
-    array('id' => '\d+'),
+    array(),
     '',
     array(),
     array('DELETE')
